@@ -1,6 +1,8 @@
 package com.database.source.controller;
 
+import cn.hutool.core.lang.Snowflake;
 import com.alibaba.fastjson.JSONObject;
+import com.database.source.config.SnowflakeGenerator;
 import com.database.source.entity.UserAuthEntity;
 import com.database.source.service.UserAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,15 @@ public class UserAuthController {
 
     @PostMapping("/save")
     public String save() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 100; i < 10000; i++) {
             List<String> countries = new ArrayList<>();
             countries.add("UK");
             countries.add("DE");
             countries.add("FR");
+            countries.add("ES");
             UserAuthEntity userAuthEntity = new UserAuthEntity();
-            userAuthEntity.setId((long) i);
+            Snowflake snowflake = new Snowflake(1,1);
+            userAuthEntity.setId(snowflake.nextId());
             userAuthEntity.setAddDate(new Date());
             userAuthEntity.setEmail("test" + i + "@163.com");
             userAuthEntity.setPassword("123456");

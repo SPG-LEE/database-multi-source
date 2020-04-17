@@ -24,7 +24,7 @@ sharding:
       sharding:
         tables:
           user_auth_:
-            actual-data-nodes: data${0..1}.user_auth_${['UK','DE','FR']}
+            actual-data-nodes: data${0..1}.user_auth_${['UK','DE','FR','ES']}
             database-strategy:
               inline:
                 sharding-column: id
@@ -34,4 +34,10 @@ sharding:
                 sharding-column: country
                 algorithm-expression: user_auth_${country}
             key-generator-column-name: id
+            key-generator:
+              type: SnowflakeGenerator
+              column: id
+              props:
+                workid: 1
+
         binding-tables: user_auth_
