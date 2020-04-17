@@ -1,0 +1,37 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+sharding:
+  jdbc:
+    datasource:
+      names: data0,data1
+      data0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/data0
+        username: aiqier
+        password: Aiqier888
+      data1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/data1
+        username: aiqier
+        password: Aiqier888
+    config:
+      sharding:
+        tables:
+          user_auth_:
+            actual-data-nodes: data${0..1}.user_auth_${['UK','DE','FR']}
+            database-strategy:
+              inline:
+                sharding-column: id
+                algorithm-expression: data${id % 2}
+            table-strategy:
+              inline:
+                sharding-column: country
+                algorithm-expression: user_auth_${country}
+            key-generator-column-name: id
+        binding-tables: user_auth_
