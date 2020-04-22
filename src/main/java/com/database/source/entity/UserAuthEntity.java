@@ -1,6 +1,8 @@
 package com.database.source.entity;
 
 import lombok.Data;
+import org.apache.shardingsphere.transaction.annotation.ShardingTransactionType;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +15,8 @@ import java.util.Date;
 public class UserAuthEntity implements Serializable {
     private static final long serialVersionUID = 7230052310725727465L;
     @Id
+    @GeneratedValue(generator = "user_id" )
+    @GenericGenerator(name = "user_id",strategy = "com.database.source.config.SnowflakeGenerator")
     private Long id;
     @Column(name = "PHONE", length = 16)
     private String phone;

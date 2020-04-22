@@ -4,6 +4,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
+    hibernate:
+      ddl-auto: update
 sharding:
   jdbc:
     datasource:
@@ -34,10 +36,11 @@ sharding:
                 sharding-column: country
                 algorithm-expression: user_auth_${country}
             key-generator-column-name: id
-            key-generator:
-              type: SnowflakeGenerator
-              column: id
-              props:
-                workid: 1
-
+#            key-generator-class-name: com.database.source.config.SnowflakeGenerator
+#            key-generator:
+#              type: SNOWFLAKE
+#              column: id
+#              props:
+#                workid: 1
         binding-tables: user_auth_
+#        default-key-generator-class-name: com.database.source.config.SnowflakeGenerator
